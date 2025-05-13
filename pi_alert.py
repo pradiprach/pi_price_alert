@@ -2,9 +2,21 @@ import os
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from smtplib import SMTP
-
+from twilio.rest import Client
 from bs4 import BeautifulSoup
 import requests
+
+def send_sms(curr_price):
+    account_sid = os.environ.get("TWILIO_SID")
+    auth_token = os.environ.get("TWILIO_AUTH_TOKEN")
+    client = Client(account_sid, auth_token)
+
+    message = client.messages.create(
+        from_=os.environ.get("TWILIO_FROM_NUMBER"),
+        to=os.environ.get("TWILIO_TO_NUMBER"),
+        body=f'Pi Price: {curr_price}'
+    )
+    print(message.sid)
 
 def send_alert(curr_price):
     my_email = os.environ.get("SMTP_EMAIL")
@@ -30,6 +42,6 @@ soup = BeautifulSoup(response.text, 'html.parser')
 title = soup.select_one(selector="title")
 current_price = float(title.text.split("|")[0].strip())
 print(f"PI Current Price: {current_price}")
-if current_price > 0.9:
-    send_alert(current_price)
-
+if current_price > 1.5:
+    # send_alert(current_price)
+    send_sms(current_price)
