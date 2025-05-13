@@ -21,5 +21,9 @@ jobs:
           SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
           SMTP_EMAIL: ${{ secrets.SMTP_EMAIL }}
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
+          TWILIO_FROM_NUMBER: ${{ secrets.TWILIO_FROM_NUMBER }}
+          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+          TWILIO_TO_NUMBER: ${{ secrets.TWILIO_TO_NUMBER }}
+          TWILIO_SID: ${{ secrets.TWILIO_SID }}
           PYTHONUNBUFFERED: 1
         run: python pi_alert.py
