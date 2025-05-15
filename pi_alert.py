@@ -42,6 +42,6 @@ soup = BeautifulSoup(response.text, 'html.parser')
 title = soup.select_one(selector="title")
 current_price = float(title.text.split("|")[0].strip())
 print(f"PI Current Price: {current_price}")
-if current_price > 1.5:
+if current_price > 1.1:
     # send_alert(current_price)
     send_sms(current_price)
