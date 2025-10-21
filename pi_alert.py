@@ -35,13 +35,16 @@ def send_alert(curr_price):
         connection.login(user=my_email, password=password)
         connection.sendmail(from_addr=my_email, to_addrs=to_email, msg=message.as_string())
 
-URL = "https://www.bitget.site/spot/PIUSDT"
+URL = "https://api.coinmarketcap.com/data-api/v3/cryptocurrency/market-pairs/latest?slug=pi&start=1&limit=10&category=spot&centerType=all&sort=cmc_rank_advanced&direction=desc&spotUntracked=true"
 response = requests.get(url=URL)
-soup = BeautifulSoup(response.text, 'html.parser')
+for market in response.json()['data']['marketPairs']:
+    if market['exchangeName'] == 'Bitget':
+        if float(market['price']) > 1:
+            send_sms(market['price'])
+        else:
+            print("Price is less than 1")
+        exit(0)
+print("unable to fetch PI value")
+        
 
-title = soup.select_one(selector="title")
-current_price = float(title.text.split("|")[0].strip())
-print(f"PI Current Price: {current_price} USDT")
-if current_price > 1.1:
-    # send_alert(current_price)
-    send_sms(current_price)
+    
