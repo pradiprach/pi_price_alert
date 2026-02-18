@@ -35,12 +35,34 @@ def send_alert(curr_price):
         connection.login(user=my_email, password=password)
         connection.sendmail(from_addr=my_email, to_addrs=to_email, msg=message.as_string())
 
+def send_telegram_msg(curr_price):
+    # Your credentials
+    token = os.environ.get("TELEGRAM_TOKEN")
+    chat_id = os.environ.get("TELEGRAM_CHAT_ID")  # Use the negative ID for groups
+
+    url = f"https://api.telegram.org/bot{token}/sendMessage"
+    message = f'Pi Price: {curr_price}'
+    payload = {
+        "chat_id": chat_id,
+        "text": message,
+        "parse_mode": "Markdown"
+    }
+
+    try:
+        response = requests.post(url, json=payload)
+        if response.status_code == 200:
+            print("Message sent to family!")
+        else:
+            print(f"Failed to send: {response.text}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
 URL = "https://api.coinmarketcap.com/data-api/v3/cryptocurrency/market-pairs/latest?slug=pi&start=1&limit=10&category=spot&centerType=all&sort=cmc_rank_advanced&direction=desc&spotUntracked=true"
 response = requests.get(url=URL)
 for market in response.json()['data']['marketPairs']:
     if market['exchangeName'] == 'Bitget':
-        if float(market['price']) > 1:
-            send_sms(market['price'])
+        if float(market['price']) >= 0.1 :
+            send_telegram_msg(market['price'])
         else:
             print("Price is less than 1")
         exit(0)
