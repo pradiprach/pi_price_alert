@@ -61,7 +61,7 @@ URL = "https://api.coinmarketcap.com/data-api/v3/cryptocurrency/market-pairs/lat
 response = requests.get(url=URL)
 for market in response.json()['data']['marketPairs']:
     if market['exchangeName'] == 'Bitget':
-        if float(market['price']) >= 0.1 :
+        if float(market['price']) >= 1 :
             send_telegram_msg(market['price'])
         else:
             print("Price is less than 1")
