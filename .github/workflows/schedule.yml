@@ -25,5 +25,7 @@ jobs:
           TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
           TWILIO_TO_NUMBER: ${{ secrets.TWILIO_TO_NUMBER }}
           TWILIO_SID: ${{ secrets.TWILIO_SID }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           PYTHONUNBUFFERED: 1
         run: python pi_alert.py
