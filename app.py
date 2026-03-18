@@ -89,7 +89,7 @@ def send_telegram_msg(crypto_name, curr_price, action):
 def fetch_with_price(crypto):
     crypto_copy = crypto.copy()
     try:
-        crypto_copy["current_price"] = get_crypto_price(crypto["name"])
+        crypto_copy["current_price"] = get_crypto_price(crypto["name"], crypto["exchange"])
     except Exception:
         crypto_copy["current_price"] = None
     return crypto_copy
