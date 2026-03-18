@@ -104,7 +104,7 @@ def check_crypto():
             current_price = get_crypto_price(crypto["name"], crypto["exchange"])
             if current_price >= crypto["sell_price"]:
                 send_telegram_msg(crypto["name"], current_price, "SELL")
-            elif crypto["buy_price"] <= current_price:
+            elif crypto["buy_price"] >= current_price:
                 send_telegram_msg(crypto["name"], current_price, "BUY")
         except Exception as e:
             logger.error(f"Error processing {crypto['name']}: {e}")
