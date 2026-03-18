@@ -45,7 +45,7 @@ def get_crypto_price(crypto_name, exchange):
         for market in response.json()['data']['marketPairs']:
             if market['exchangeName'].lower() == exchange.lower():
                 logger.info(f"Current price of {crypto_name} on {exchange} is {market['price']}")
-                return float(market['price'])
+                return round(float(market['price']), 3)
         logger.warning(f"Exchange {exchange} not found for {crypto_name}")
         return 0
     except requests.RequestException as e:
