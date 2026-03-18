@@ -36,6 +36,7 @@ def get_session():
     return session
 
 def get_crypto_price(crypto_name, exchange):
+    logger.info(f"Fetching price for {crypto_name} on {exchange}")
     base_url = f"https://api.coinmarketcap.com/data-api/v3/cryptocurrency/market-pairs/latest?slug={crypto_name.lower()}&start=1&limit=10&category=spot&centerType=all&sort=cmc_rank_advanced&direction=desc&spotUntracked=true"
     try:
         session = get_session()
@@ -43,7 +44,9 @@ def get_crypto_price(crypto_name, exchange):
         response.raise_for_status()
         for market in response.json()['data']['marketPairs']:
             if market['exchangeName'].lower() == exchange.lower():
+                logger.info(f"Current price of {crypto_name} on {exchange} is {market['price']}")
                 return float(market['price'])
+        logger.warning(f"Exchange {exchange} not found for {crypto_name}")
         return 0
     except requests.RequestException as e:
         logger.error(f"Failed to fetch price for {crypto_name}: {e}")
