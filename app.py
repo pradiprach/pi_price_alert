@@ -101,7 +101,7 @@ def check_crypto():
         if crypto["status"] == 0:
             continue
         try:
-            current_price = get_crypto_price(crypto["name"])
+            current_price = get_crypto_price(crypto["name"], crypto["exchange"])
             if current_price >= crypto["sell_price"]:
                 send_telegram_msg(crypto["name"], current_price, "SELL")
             elif crypto["buy_price"] <= current_price:
